@@ -1,7 +1,7 @@
 // export const settings = {
 //     host: '',
 // };
-import * as confing from '../confing.js';
+import * as confing from '../config.js';
 export const settings = confing.settings;
 
 async function request(url, options) {
