@@ -20,6 +20,8 @@ jobs:
         cache: 'npm'
     - name: Install dependencies
       run: npm ci
+    - name: Update the congig
+      run: echo "export const settings = {host:\"https://localhost:3030\"}" > src/config.js
     - name: Start Backend
       run: npm run start:be &
     - name: Start Frontend
@@ -29,4 +31,24 @@ jobs:
     - name: Execute the UI tests
       run: npm run test:ui
 
-  
+  deploy-be:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: JorgeLNJunior/render-deploy@v1.4.4
+        with:
+          service_id: ${{ secrets.RENDER_SERVICE_BE_ID }}
+          api_key: ${{ secrets.RENDER_API_KEY }}
+          wait_deploy: true
+
+  deploy-fe:
+    needs: deploy-be
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: JorgeLNJunior/render-deploy@v1.4.4
+        with:
+          service_id: ${{ secrets.RENDER_SERVICE_FE_ID }}
+          api_key: ${{ secrets.RENDER_API_KEY }}
+          wait_deploy: true
