@@ -1,8 +1,8 @@
 // export const settings = {
 //     host: '',
 // };
-import * as confing from '../config.js';
-export const settings = confing.settings;
+import * as config from '../config.js';
+export const settings = config.settings;
 
 async function request(url, options) {
     try {
